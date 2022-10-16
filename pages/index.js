@@ -1,48 +1,39 @@
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import { useMoralis, useWeb3Contract } from "react-moralis";
-import { abi } from "../constants/abi";
-import { useState, useEffect } from "react";
+import Head from "next/head"
+import styles from "../styles/Home.module.css"
+import Header from "../components/Header"
+import LotteryEntrance from "../components/LotteryEntrance"
+import { useMoralis } from "react-moralis"
+
+const supportedChains = ["31337", "5"]
 
 export default function Home() {
-  const [hasMetamask, setHasMetamask] = useState(false);
-  const { enableWeb3, isWeb3Enabled } = useMoralis();
+    const { isWeb3Enabled, chainId } = useMoralis()
 
-  const { data, error, runContractFunction, isFetching, isLoading } =
-    // const contractAddress = "0x66dDD127007f103F4913D8D3b88358B4fB17a6B8";
-    useWeb3Contract({
-      abi: abi,
-      contractAddress: "0x66dDD127007f103F4913D8D3b88358B4fB17a6B8", // your contract address here
-      functionName: "store",
-      params: {
-        _favoriteNumber: 4,
-      },
-    });
-
-  useEffect(() => {
-    if (typeof window.ethereum !== "undefined") {
-      setHasMetamask(true);
-    }
-  });
-
-  return (
-    <div>
-      {hasMetamask ? (
-        isWeb3Enabled ? (
-          "Connected! "
-        ) : (
-          <button onClick={() => enableWeb3()}>Connect</button>
-        )
-      ) : (
-        "Please install metamask"
-      )}
-
-      {isWeb3Enabled ? (
-        <button onClick={() => runContractFunction()}>Execute</button>
-      ) : (
-        ""
-      )}
-    </div>
-  );
+    return (
+        <div className="">
+            <Head>
+                <title>Smart Contract Lottery</title>
+                <meta name="description" content="Our Smart Contract Lottery" />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+    
+                <Header />
+            
+            <div className="max-w-3xl mx-auto">
+                {isWeb3Enabled ? (
+                    <div>
+                        {supportedChains.includes(parseInt(chainId).toString()) ? (
+                            <div className="flex flex-row">
+                                <LotteryEntrance />
+                            </div>
+                        ) : (
+                            <div>{`Please switch to a supported chainId. The supported Chain Ids are: ${supportedChains}`}</div>
+                        )}
+                    </div>
+                ) : (
+                    <div>Please connect to a Wallet</div>
+                )}
+            </div>
+        </div>
+    )
 }
