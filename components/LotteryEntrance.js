@@ -110,7 +110,7 @@ export default function LotteryEntrance() {
     }
 
     return (
-        <div className="p-5 flex flex-col shadow-2xl mt-4 rounded-2xl border-gray-600">
+        <div className="p-5 flex flex-col shadow-2xl mt-4 rounded-2xl border-gray-600 font-sans">
             {raffleAddress ? (
                 <>
                     <div className="flex flex-row justify-between items-center ">
@@ -135,12 +135,22 @@ export default function LotteryEntrance() {
                             )}
                         </button>
                     </div>
-                    <div >
+                    <div>
                         <div className="mb-1">
                             Entrance Fee: {ethers.utils.formatUnits(entranceFee, "ether")} ETH
                         </div>
-                        <div className="mb-4">The current number of players is: <span className="bg-gray-700 text-white font-bold py-2 px-3 rounded-full h-10">{numberOfPlayers}</span></div>
-                        <div >The most previous winner was: <span className="bg-gray-700 text-white font-bold py-2 px-4 rounded-full h-10">{recentWinner}</span></div>
+                        <div className="mb-4">
+                            The current number of players is:{" "}
+                            <span className="bg-gray-700 text-white font-bold py-2 px-3 rounded-full h-10">
+                                {numberOfPlayers}
+                            </span>
+                        </div>
+                        <div>
+                            The most previous winner was:{" "}
+                            <span className="bg-gray-700 text-white font-bold py-2 px-4 rounded-full h-10">
+                                {recentWinner}
+                            </span>
+                        </div>
                     </div>
                 </>
             ) : (
